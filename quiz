@@ -1,0 +1,53 @@
+// ... (previous code)
+
+const optionsElement = document.getElementById('options');
+const nextButton = document.getElementById('next-btn');
+
+const questions = [
+  {
+    question: 'What is the Spanish word for "hello"?',
+    options: ['Hola', 'Adiós', 'Gracias', 'Por favor'],
+    answer: 'Hola'
+  },
+  // Add more questions here
+];
+
+let currentQuestionIndex = 0;
+
+function showQuestion() {
+  const currentQuestion = questions[currentQuestionIndex];
+  questionElement.textContent = currentQuestion.question;
+  optionsElement.innerHTML = '';
+
+  currentQuestion.options.forEach(option => {
+    const optionElement = document.createElement('button');
+    optionElement.textContent = option;
+    optionElement.classList.add('option-button');
+
+    optionElement.addEventListener('click', () => {
+      if (option === currentQuestion.answer) {
+        optionElement.classList.add('correct');
+      } else {
+        optionElement.classList.add('incorrect');
+      }
+    });
+
+    optionsElement.appendChild(optionElement);
+  });
+}
+
+nextButton.addEventListener('click', () => {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < questions.length) {
+    showQuestion();
+  } else {
+    questionElement.textContent = 'Congratulations! You completed the quiz.';
+    optionsElement.innerHTML = `
+      <a href="https://spanishtogo.app" target="_blank" rel="noopener noreferrer">
+        Continue learning at SpanishToGo App
+      </a>`;
+    nextButton.style.display = 'none';
+  }
+});
+
+showQuestion();
